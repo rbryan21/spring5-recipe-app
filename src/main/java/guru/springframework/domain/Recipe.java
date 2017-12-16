@@ -17,8 +17,6 @@ public class Recipe {
     private String source;
     private String url;
     private String directions;
-    // todo add
-    // private Difficulty difficulty;
 
     // we're saying that Recipe owns the ingredients and
     // that this recipe will be stored on the set of ingredients as a property called recipe (in Ingredient.java)
@@ -33,6 +31,15 @@ public class Recipe {
     // if this recipe is deleted, the corresponding note is deleted
     @OneToOne(cascade = CascadeType.ALL)
     private Note note;
+
+    @Enumerated(value = EnumType.STRING)
+    private Difficulty difficulty;
+
+    @ManyToMany
+    @JoinTable(name = "recipe_category",
+        joinColumns = @JoinColumn(name = "recipe_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories;
 
     public Long getId() {
         return id;
@@ -113,4 +120,29 @@ public class Recipe {
     public void setNote(Note note) {
         this.note = note;
     }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
 }
